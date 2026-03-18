@@ -1,0 +1,32 @@
+add NewYork 10.5 20 12000 10 1624 345640 DICTATORSHIP John 180
+add LosAngeles 15.0 25 10000 15 1781 234300 GERONTOCRACY Alice 165
+show
+
+info
+
+update 1 Chicago 12.0 22 342300 12 1833 2343500 TOTALITARIANISM Bob 175
+
+show
+
+add_if_max Miami 16.0 30 470000 5 1896 345600 DICTATORSHIP Carol 160
+
+add_if_min Boston 8.0 18 345460 8 1630 23434600 GERONTOCRACY Dave 170
+
+remove_first
+
+remove_by_id 2
+
+filter_by_government DICTATORSHIP
+
+filter_contains_name mi
+
+count_greater_than_governor John 180
+
+save
+
+clear
+
+show
+
+# просто комментарий чтобы поломать все и вся)))
+exit
