@@ -49,7 +49,7 @@ public class Save implements Command {
 
         // если FileManager отсутствует, создаём default.csv
         if (fileManager == null) {
-            fileName = "default.csv";
+            fileName = "default.csv";//add exception in console
             fileManager = new FileManager(fileName);
         }
 

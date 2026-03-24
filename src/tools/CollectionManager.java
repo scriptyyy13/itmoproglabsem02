@@ -23,7 +23,7 @@ public class CollectionManager {
      *
      * @return коллекция City
      */
-    public ArrayDeque<City> getCollection() {
+    public ArrayDeque<City> getCollection() {//todo setter + no static method
         return collection;
     }
 
