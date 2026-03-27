@@ -13,4 +13,5 @@ public interface Command {
      * Все конкретные команды должны реализовать этот метод.
      */
     void execute();
+    String getDescription();
 }
