@@ -49,8 +49,16 @@ public class Save implements Command {
 
         // если FileManager отсутствует, создаём default.csv
         if (fileManager == null) {
-            fileName = "default.csv";//add exception in console
-            fileManager = new FileManager(fileName);
+            try {
+                throw new Exception("FileManager не инициализирован. Использование файла по умолчанию.");
+            } catch (Exception e) {
+                // выводим сообщение исключения в консоль
+                System.out.println("Внимание: " + e.getMessage());
+
+                // создаем дефолтный файл
+                fileName = "default.csv";
+                fileManager = new FileManager(fileName);
+            }
         }
 
         try {
