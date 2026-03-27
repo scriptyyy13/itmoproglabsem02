@@ -4,8 +4,6 @@ import models.City;
 import reader_manager.InputManager;
 import tools.CollectionManager;
 
-import java.util.stream.Collectors;
-
 /**
  * Команда filter_contains_name name.
  * Выводит элементы коллекции, значение поля name которых содержит заданную подстроку.

@@ -4,9 +4,6 @@ import models.City;
 import reader_manager.InputManager;
 import tools.CollectionManager;
 
-import java.util.Comparator;
-import java.util.Optional;
-
 /**
  * Команда add_if_min {element}.
  * Добавляет новый элемент в коллекцию, если его значение меньше наименьшего элемента.

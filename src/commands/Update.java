@@ -4,8 +4,6 @@ import models.City;
 import reader_manager.InputManager;
 import tools.CollectionManager;
 
-import java.util.Optional;
-
 /**
  * Команда update id {element}.
  * Обновляет существующий элемент коллекции (City) по его id.

@@ -1,7 +1,5 @@
 package commands;
 
-import tools.CommandManager;
-
 /**
  * Команда help.
  * Выводит список доступных команд и их описание.

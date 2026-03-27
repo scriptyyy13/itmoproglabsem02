@@ -5,8 +5,6 @@ import models.Government;
 import reader_manager.InputManager;
 import tools.CollectionManager;
 
-import java.util.stream.Collectors;
-
 /**
  * Команда filter_by_government government.
  * Выводит элементы коллекции, значение поля government которых равно указанному.
