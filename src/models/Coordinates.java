@@ -10,10 +10,10 @@ package models;
 public class Coordinates {
 
     /** Координата X (не null) */
-    private Float x;
+    private final Float x;
 
     /** Координата Y (не null, <=150) */
-    private Integer y;
+    private final Integer y;
 
     /**
      * Конструктор координат.

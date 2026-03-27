@@ -17,7 +17,7 @@ public class City implements Comparable<City> {
     private long id; // >0, уникальный, генерируется автоматически
     private String name; // не null, не пустой
     private Coordinates coordinates; // не null
-    private ZonedDateTime creationDate; // не null, генерируется автоматически
+    private final ZonedDateTime creationDate; // не null, генерируется автоматически
     private long area; // >0
     private Long population; // >0, не null
     private Long metersAboveSeaLevel; // может быть null

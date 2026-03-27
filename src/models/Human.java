@@ -12,13 +12,13 @@ import java.time.ZonedDateTime;
 public class Human {
 
     /** Имя человека (не null, не пустое) */
-    private String name;
+    private final String name;
 
     /** Рост человека (>0) */
-    private int height;
+    private final int height;
 
     /** Дата рождения человека (может быть null) */
-    private ZonedDateTime birthday;
+    private final ZonedDateTime birthday;
 
     /**
      * Конструктор человека.
