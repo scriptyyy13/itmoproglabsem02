@@ -31,4 +31,9 @@ public class Clear implements Command {
         collectionManager.clear();
         System.out.println("Коллекция очищена.");
     }
+
+    @Override
+    public String getDescription() {
+        return "очистить коллекцию";
+    }
 }

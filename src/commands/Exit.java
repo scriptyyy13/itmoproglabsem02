@@ -17,4 +17,9 @@ public class Exit implements Command {
         System.out.println("Завершение работы программы...");
         System.exit(0);
     }
+
+    @Override
+    public String getDescription() {
+        return "завершить программу";
+    }
 }

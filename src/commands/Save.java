@@ -68,4 +68,9 @@ public class Save implements Command {
             System.out.println("Ошибка при сохранении коллекции: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "сохранить коллекцию в файл";
+    }
 }

@@ -60,4 +60,9 @@ public class CountGreaterThanGovernor implements Command {
             System.out.println("Ошибка при подсчёте: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "вывести количество элементов с governor больше заданного";
+    }
 }

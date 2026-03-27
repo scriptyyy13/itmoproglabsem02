@@ -35,4 +35,9 @@ public class RemoveFirst implements Command {
             System.out.println("Первый элемент коллекции удалён.");
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "удалить первый элемент коллекции";
+    }
 }

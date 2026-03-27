@@ -57,4 +57,9 @@ public class AddIfMax implements Command {
             System.out.println("Ошибка при добавлении города: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "добавить элемент, если он больше всех";
+    }
 }

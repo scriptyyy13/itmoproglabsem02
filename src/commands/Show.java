@@ -34,4 +34,9 @@ public class Show implements Command {
         }
         collectionManager.getCollection().forEach(System.out::println);
     }
+
+    @Override
+    public String getDescription() {
+        return "вывести все элементы коллекции";
+    }
 }

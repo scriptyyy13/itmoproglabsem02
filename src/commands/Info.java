@@ -34,4 +34,9 @@ public class Info implements Command {
         System.out.println("Дата инициализации: " + ZonedDateTime.now());
         System.out.println("Количество элементов: " + collectionManager.size());
     }
+
+    @Override
+    public String getDescription() {
+        return "вывести информацию о коллекции";
+    }
 }

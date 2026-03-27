@@ -57,4 +57,9 @@ public class FilterContainsName implements Command {
             System.out.println("Ошибка при фильтрации: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "вывести элементы, содержащие подстроку в имени";
+    }
 }

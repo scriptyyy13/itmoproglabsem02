@@ -52,4 +52,9 @@ public class RemoveById implements Command {
             System.out.println("Элемент с id " + id + " не найден.");
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "удалить элемент по id";
+    }
 }

@@ -70,4 +70,9 @@ public class ExecuteScript implements Command {
             System.out.println("Ошибка при чтении файла: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "выполнить команды из файла";
+    }
 }

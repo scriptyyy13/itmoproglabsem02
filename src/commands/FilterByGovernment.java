@@ -62,4 +62,9 @@ public class FilterByGovernment implements Command {
             System.out.println("Ошибка при фильтрации: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "вывести элементы с заданной формой правления";
+    }
 }

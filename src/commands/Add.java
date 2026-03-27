@@ -41,4 +41,9 @@ public class Add implements Command {
             System.out.println("Ошибка при добавлении города: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "добавить новый элемент в коллекцию";
+    }
 }

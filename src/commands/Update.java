@@ -58,4 +58,9 @@ public class Update implements Command {
             System.out.println("Ошибка при обновлении города: " + e.getMessage());
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "обновить элемент по id";
+    }
 }
