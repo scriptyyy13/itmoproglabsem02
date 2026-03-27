@@ -22,7 +22,7 @@ public class CommandManager {
     private InputManager inputManager;
 
     /**
-     * Устанавоиваем менеджеру команд его инпут.
+     * Устанавливаем менеджеру команд его инпут.
      */
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
