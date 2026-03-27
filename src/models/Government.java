@@ -18,5 +18,5 @@ public enum Government {
     /** Диктатура */
     DICTATORSHIP,
     /** Тоталитаризм */
-    TOTALITARIANISM;
+    TOTALITARIANISM
 }
