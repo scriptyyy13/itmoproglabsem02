@@ -35,7 +35,7 @@ public class ExecuteScript implements Command {
      * Затем команды из файла выполняются последовательно.
      */
     @Override
-    public void execute() {
+    public void execute() { // TODO: Сделать передачу аргумента разрешения на рекурсию, а также ограничить рекурсию
         System.out.println("Введите имя файла скрипта:");
         String scriptFileName = inputManager.readNonEmptyString("Введите название скрипта:");
 

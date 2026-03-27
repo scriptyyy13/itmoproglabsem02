@@ -23,7 +23,7 @@ public class Coordinates {
      * @throws IllegalArgumentException если x или y некорректны
      */
     public Coordinates(Float x, Integer y) {
-        if (x == null) throw new IllegalArgumentException("x не может быть null"); // чтобы невалидные элементы выводились (элемент в айди.. не добавлен, остальное ок)
+        if (x == null) throw new IllegalArgumentException("x не может быть null");
         if (y == null || y > 150) throw new IllegalArgumentException("y не может быть null и <=150");
 
         this.x = x;
