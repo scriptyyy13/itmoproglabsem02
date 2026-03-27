@@ -32,6 +32,6 @@ public class Info implements Command {
     public void execute() {
         System.out.println("Тип коллекции: " + collectionManager.getCollection().getClass().getSimpleName());
         System.out.println("Дата инициализации: " + ZonedDateTime.now());
-        System.out.println("Количество элементов: " + collectionManager.getCollection().size());
+        System.out.println("Количество элементов: " + collectionManager.size());
     }
 }
