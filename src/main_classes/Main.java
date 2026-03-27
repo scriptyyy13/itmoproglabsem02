@@ -61,7 +61,7 @@ public class Main {
         commandManager.setInputManager(inputManager);
 
         // регистрация всех команд
-        commandManager.register("help", new Help());
+        commandManager.register("help", new Help(commandManager));
         commandManager.register("add", new Add(collectionManager, inputManager));
         commandManager.register("update", new Update(collectionManager, inputManager));
         commandManager.register("remove_by_id", new RemoveById(collectionManager, inputManager));
