@@ -49,36 +49,23 @@ public class CsvReader {
 
             try {
                 long id = Long.parseLong(fields[0]);
-                String name = fields[1];
                 Float x = Float.parseFloat(fields[2]);
                 Integer y = Integer.parseInt(fields[3]);
-                long area = Long.parseLong(fields[4]);
-                Long population = Long.parseLong(fields[5]);
-
-                Long metersAboveSeaLevel = fields[6].isEmpty() ? null :
-                        Long.parseLong(fields[6]);
-
-                long agglomeration = Long.parseLong(fields[7]);
-
-                Government government = fields[8].isEmpty() ? null :
-                        Government.valueOf(fields[8]);
-
                 Coordinates coordinates = new Coordinates(x, y);
 
                 City city = new City(
-                        name,
+                        fields[1],
                         coordinates,
-                        area,
-                        population,
-                        metersAboveSeaLevel,
+                        Long.parseLong(fields[4]),
+                        Long.parseLong(fields[5]),
+                        fields[6].isEmpty() ? null : Long.parseLong(fields[6]),
                         null,
-                        agglomeration,
-                        government,
+                        Long.parseLong(fields[7]),
+                        fields[8].isEmpty() ? null : Government.valueOf(fields[8]),
                         null
                 );
 
                 IdGenerator.updateId(id);
-
                 collection.add(city);
 
             } catch (Exception e) {

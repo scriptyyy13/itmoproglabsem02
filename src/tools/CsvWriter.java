@@ -26,17 +26,9 @@ public class CsvWriter {
         FileWriter writer = new FileWriter(fileName);
 
         for (City city : collection) {
-            writer.write(cityToCsv(city) + "\n");
+            writer.write(city.toCsv() + "\n");
         }
 
         writer.close();
-    }
-
-    /**
-     * Преобразует City в строку .csv
-     */
-    private static String cityToCsv(City city) {
-
-        return city.getId() + "," + city.getName() + "," + city.getCoordinates().getX() + "," + city.getCoordinates().getY() + "," + city.getArea() + "," + city.getPopulation() + "," + (city.getMetersAboveSeaLevel() == null ? "" : city.getMetersAboveSeaLevel()) + "," + city.getAgglomeration() + "," + (city.getGovernment() == null ? "" : city.getGovernment().name());
     }
 }

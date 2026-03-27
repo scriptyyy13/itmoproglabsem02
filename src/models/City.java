@@ -39,13 +39,22 @@ public class City implements Comparable<City> {
                 Government government,
                 Human governor) {
 
+        this.id = IdGenerator.generateId();
+        this.creationDate = ZonedDateTime.now();
+        setData(name, coordinates, area, population, metersAboveSeaLevel,
+                establishmentDate, agglomeration, government, governor);
+    }
+
+    /**
+     * Сеттер города.
+     */
+    public void setData(String name, Coordinates coordinates, long area, Long population,
+                        Long metersAboveSeaLevel, Date establishmentDate,
+                        long agglomeration, Government government, Human governor) {
         if (name == null || name.isBlank()) throw new IllegalArgumentException("Name не может быть пустым");
         if (coordinates == null) throw new IllegalArgumentException("Coordinates не могут быть null");
         if (area <= 0) throw new IllegalArgumentException("Area должен быть > 0");
         if (population == null || population <= 0) throw new IllegalArgumentException("Population > 0");
-
-        this.id = IdGenerator.generateId();
-        this.creationDate = ZonedDateTime.now();
 
         this.name = name;
         this.coordinates = coordinates;
@@ -70,6 +79,13 @@ public class City implements Comparable<City> {
     public long getAgglomeration() { return agglomeration; }
     public Government getGovernment() { return government; }
     public Human getGovernor() { return governor; }
+
+    /**
+     * Изменение ID города.
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public int compareTo(City other) {
