@@ -36,6 +36,13 @@ public class CommandManager {
     }
 
     /**
+     * Получаем список всех команд.
+     */
+    public Map<String, Command> getCommands() {
+        return commands;
+    }
+
+    /**
      * Регистрирует новую команду.
      *
      * @param name имя команды
