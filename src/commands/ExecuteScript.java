@@ -2,7 +2,9 @@ package commands;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import reader_manager.InputManager;
 import tools.CommandManager;
@@ -19,6 +21,13 @@ public class ExecuteScript implements Command {
     private final CommandManager commandManager;
     private final InputManager inputManager;
 
+    private boolean allowRecursion = true; // Можно ли вызывать файл, который уже в стеке
+    private final int MAX_DEPTH = 10; // Максимальная глубина вложенности
+
+    // Состояние (общие для всех вызовов в рамках одной цепочки)
+    private static final Set<String> activeScripts = new HashSet<>();
+    private static int currentDepth = 0;
+
     /**
      * Конструктор команды ExecuteScript.
      *
@@ -30,44 +39,78 @@ public class ExecuteScript implements Command {
     }
 
     /**
-     * Выполняет команду.
-     * Пользователю предлагается ввести имя файла скрипта.
-     * Затем команды из файла выполняются последовательно.
+     * Сеттер для переключения режима рекурсии
      */
-    @Override
-    public void execute() { // TODO: Сделать передачу аргумента разрешения на рекурсию, а также ограничить рекурсию
-        System.out.println("Введите имя файла скрипта:");
-        String scriptFileName = inputManager.readNonEmptyString("Введите название скрипта:");
+    public void setAllowRecursion(boolean allow) {
+        this.allowRecursion = allow;
+    }
 
-        File file = new File(scriptFileName);
-        if (!file.exists() || !file.isFile()) {
-            System.out.println("Файл не найден: " + scriptFileName);
+    @Override
+    public void execute() {
+        String fileName = inputManager.readNonEmptyString("Введите имя файла скрипта:");
+
+        // Сброс счетчиков при ручном запуске пользователем (уровень 0)
+        if (currentDepth == 0) {
+            activeScripts.clear();
+        }
+
+        processScript(fileName);
+    }
+
+    private void processScript(String fileName) {
+        File file = new File(fileName);
+        String path = file.getAbsolutePath();
+
+        // Проверка лимита глубины (общая вложенность)
+        if (currentDepth >= MAX_DEPTH) {
+            System.out.println("Ошибка: Превышена максимальная глубина рекурсии (" + MAX_DEPTH + ")");
             return;
         }
 
-        try (Scanner fileScanner = new Scanner(file)) {
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine().trim();
+        // Проверка циклическую рекурсию (тот же файл)
+        if (!allowRecursion && activeScripts.contains(path)) {
+            System.out.println("Ошибка: Рекурсия запрещена флагом. Файл уже запущен: " + fileName);
+            return;
+        }
 
-                if (line.isEmpty() || line.startsWith("#")) continue; // пропуск пустых строк и комментариев
+        if (!file.exists()) {
+            System.out.println("Файл не найден: " + fileName);
+            return;
+        }
 
-                String[] parts = line.split(" ");
-                String commandName = parts[0];
-                String[] cmdArgs = new String[parts.length - 1];
-                System.arraycopy(parts, 1, cmdArgs, 0, cmdArgs.length);
+        // Подготовка к выполнению
+        activeScripts.add(path);
+        currentDepth++;
 
-                System.out.println("> " + line);
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.isEmpty() || line.startsWith("#")) continue;
 
-                // передаём аргументы в InputManager, если команда их использует
-                if (commandManager.getInputManager() != null) {
-                    commandManager.getInputManager().setArgBuffer(cmdArgs);
+                String[] parts = line.split("\\s+");
+                String cmdName = parts[0];
+                String[] args = new String[parts.length - 1];
+                System.arraycopy(parts, 1, args, 0, args.length);
+
+                // System.out.println("[" + currentDepth + "] Выполняю: " + cmdName);
+
+                // Если это вложенный скрипт, вызываем этот же метод рекурсивно
+                if (cmdName.equals("execute_script") && args.length > 0) {
+                    processScript(args[0]);
+                } else {
+                    // Обычная команда
+                    if (commandManager.getInputManager() != null) {
+                        commandManager.getInputManager().setArgBuffer(args);
+                    }
+                    commandManager.execute(cmdName);
                 }
-
-                // выполняем команду
-                commandManager.execute(commandName);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Ошибка при чтении файла: " + e.getMessage());
+            System.out.println("Ошибка доступа к файлу: " + e.getMessage());
+        } finally {
+            // Выход из уровня вложенности
+            currentDepth--;
+            activeScripts.remove(path);
         }
     }
 
