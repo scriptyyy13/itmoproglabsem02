@@ -29,4 +29,4 @@ clear
 show
 
 # просто комментарий чтобы поломать все и вся)))
-exit
+execute_script example.script
