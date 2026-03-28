@@ -44,7 +44,7 @@ public class Main {
             try {
                 fileManager = new FileManager(fileName);
                 collectionManager.getCollection().addAll(fileManager.load());
-                System.out.println("Данные загружены из файла: " + fileName); // TODO: Сделать так, чтобы невалидные элементы пропускались и выводилось что именно не добавилось. (Можно добавить вопрос можно ли добавить, раз столько-то элементов пропущено)
+                System.out.println("Данные загружены из файла: " + fileName);
             } catch (Exception e) {
                 System.out.println("Не удалось загрузить файл: " + fileName + ". Коллекция будет пустой.");
             }
