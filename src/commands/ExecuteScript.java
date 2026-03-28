@@ -21,8 +21,8 @@ public class ExecuteScript implements Command {
     private final CommandManager commandManager;
     private final InputManager inputManager;
 
-    private boolean allowRecursion = true; // Можно ли вызывать файл, который уже в стеке
-    private final int MAX_DEPTH = 10; // Максимальная глубина вложенности
+    private boolean allowRecursion = true; // можно ли вызывать файл, который уже в стеке
+    private final int MAX_DEPTH = 10; // максимальная глубина вложенности
 
     // Состояние (общие для всех вызовов в рамках одной цепочки)
     private static final Set<String> activeScripts = new HashSet<>();
@@ -49,7 +49,7 @@ public class ExecuteScript implements Command {
     public void execute() {
         String fileName = inputManager.readNonEmptyString("Введите имя файла скрипта:");
 
-        // Сброс счетчиков при ручном запуске пользователем (уровень 0)
+        // сброс счетчиков при ручном запуске пользователем (уровень 0)
         if (currentDepth == 0) {
             activeScripts.clear();
         }
@@ -61,13 +61,13 @@ public class ExecuteScript implements Command {
         File file = new File(fileName);
         String path = file.getAbsolutePath();
 
-        // Проверка лимита глубины (общая вложенность)
+        // проверка лимита глубины (общая вложенность)
         if (currentDepth >= MAX_DEPTH) {
             System.out.println("Ошибка: Превышена максимальная глубина рекурсии (" + MAX_DEPTH + ")");
             return;
         }
 
-        // Проверка циклическую рекурсию (тот же файл)
+        // проверка циклическую рекурсию (тот же файл)
         if (!allowRecursion && activeScripts.contains(path)) {
             System.out.println("Ошибка: Рекурсия запрещена флагом. Файл уже запущен: " + fileName);
             return;
@@ -78,7 +78,7 @@ public class ExecuteScript implements Command {
             return;
         }
 
-        // Подготовка к выполнению
+        // подготовка к выполнению
         activeScripts.add(path);
         currentDepth++;
 
@@ -94,7 +94,7 @@ public class ExecuteScript implements Command {
 
                 // System.out.println("[" + currentDepth + "] Выполняю: " + cmdName);
 
-                // Если это вложенный скрипт, вызываем этот же метод рекурсивно
+                // если это вложенный скрипт, вызываем этот же метод рекурсивно
                 if (cmdName.equals("execute_script") && args.length > 0) {
                     processScript(args[0]);
                 } else {
@@ -108,7 +108,7 @@ public class ExecuteScript implements Command {
         } catch (FileNotFoundException e) {
             System.out.println("Ошибка доступа к файлу: " + e.getMessage());
         } finally {
-            // Выход из уровня вложенности
+            // выход из уровня вложенности
             currentDepth--;
             activeScripts.remove(path);
         }
