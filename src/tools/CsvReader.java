@@ -40,11 +40,11 @@ public class CsvReader {
 
         Scanner scanner = new Scanner(file);
 
+        int missedLines = 0;
         while (scanner.hasNextLine()) {
 
             String line = scanner.nextLine();
             String[] fields = line.split(",");
-
             try {
                 long id = Long.parseLong(fields[0]);
                 Float x = Float.parseFloat(fields[2]);
@@ -67,8 +67,12 @@ public class CsvReader {
                 collection.add(city);
 
             } catch (Exception e) {
-                System.out.println("Ошибка в строке: " + line);
+                missedLines++;
             }
+        }
+
+        if (missedLines > 0) {
+            System.out.println("Не удалось прочитать " + missedLines + " строк, неудачные элементы были пропущены");
         }
 
         scanner.close();
