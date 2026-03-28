@@ -98,9 +98,6 @@ public class Main {
 
             // выполнение команды
             commandManager.execute(commandName);
-
-            // завершение программы
-            if (commandName.equals("exit")) break;
         }
     }
 }
