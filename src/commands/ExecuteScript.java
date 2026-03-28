@@ -24,7 +24,7 @@ public class ExecuteScript implements Command {
     private boolean allowRecursion = true; // можно ли вызывать файл, который уже в стеке
     private final int MAX_DEPTH = 10; // максимальная глубина вложенности
 
-    // Состояние (общие для всех вызовов в рамках одной цепочки)
+    // состояние (общие для всех вызовов в рамках одной цепочки)
     private static final Set<String> activeScripts = new HashSet<>();
     private static int currentDepth = 0;
 
@@ -45,18 +45,9 @@ public class ExecuteScript implements Command {
         this.allowRecursion = allow;
     }
 
-    @Override
-    public void execute() {
-        String fileName = inputManager.readNonEmptyString("Введите имя файла скрипта:");
-
-        // сброс счетчиков при ручном запуске пользователем (уровень 0)
-        if (currentDepth == 0) {
-            activeScripts.clear();
-        }
-
-        processScript(fileName);
-    }
-
+    /**
+     * Процессинг скрипта
+     */
     private void processScript(String fileName) {
         File file = new File(fileName);
         String path = file.getAbsolutePath();
@@ -112,6 +103,18 @@ public class ExecuteScript implements Command {
             currentDepth--;
             activeScripts.remove(path);
         }
+    }
+
+    @Override
+    public void execute() {
+        String fileName = inputManager.readNonEmptyString("Введите имя файла скрипта:");
+
+        // сброс счетчиков при ручном запуске пользователем (уровень 0)
+        if (currentDepth == 0) {
+            activeScripts.clear();
+        }
+
+        processScript(fileName);
     }
 
     @Override
