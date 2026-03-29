@@ -47,7 +47,7 @@ public class FileManager {
         try {
             return CsvReader.read(fileName);
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден. Коллекция будет пустой.");
+            OutputManager.errPrintln("Файл не найден. Коллекция будет пустой.");
             return new ArrayDeque<>();
         }
     }
@@ -60,9 +60,9 @@ public class FileManager {
     public void save(ArrayDeque<City> collection) {
         try {
             CsvWriter.write(fileName, collection);
-            System.out.println("Коллекция сохранена.");
+            OutputManager.println("Коллекция сохранена.");
         } catch (IOException e) {
-            System.out.println("Ошибка записи в файл: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка записи в файл: " + e.getMessage());
         }
     }
 }

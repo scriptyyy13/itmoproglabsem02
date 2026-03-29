@@ -2,6 +2,7 @@ package commands;
 
 import models.City;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -36,9 +37,9 @@ public class Add implements Command {
         try {
             City city = inputManager.readCity();
             collectionManager.add(city);
-            System.out.println("Город добавлен: " + city);
+            OutputManager.println("Город добавлен: " + city);
         } catch (Exception e) {
-            System.out.println("Ошибка при добавлении города: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при добавлении города: " + e.getMessage());
         }
     }
 

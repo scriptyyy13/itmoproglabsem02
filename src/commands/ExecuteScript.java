@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CommandManager;
 
 /**
@@ -54,18 +55,18 @@ public class ExecuteScript implements Command {
 
         // проверка лимита глубины (общая вложенность)
         if (currentDepth >= MAX_DEPTH) {
-            System.out.println("Ошибка: Превышена максимальная глубина рекурсии (" + MAX_DEPTH + ")");
+            OutputManager.errPrintln("Ошибка: Превышена максимальная глубина рекурсии (" + MAX_DEPTH + ")");
             return;
         }
 
         // проверка циклическую рекурсию (тот же файл)
         if (!allowRecursion && activeScripts.contains(path)) {
-            System.out.println("Ошибка: Рекурсия запрещена флагом. Файл уже запущен: " + fileName);
+            OutputManager.errPrintln("Ошибка: Рекурсия запрещена флагом. Файл уже запущен: " + fileName);
             return;
         }
 
         if (!file.exists()) {
-            System.out.println("Файл не найден: " + fileName);
+            OutputManager.errPrintln("Файл не найден: " + fileName);
             return;
         }
 
@@ -83,7 +84,7 @@ public class ExecuteScript implements Command {
                 String[] args = new String[parts.length - 1];
                 System.arraycopy(parts, 1, args, 0, args.length);
 
-                // System.out.println("[" + currentDepth + "] Выполняю: " + cmdName);
+                // OutputManager.println("[" + currentDepth + "] Выполняю: " + cmdName);
 
                 // если это вложенный скрипт, вызываем этот же метод рекурсивно
                 if (cmdName.equals("execute_script") && args.length > 0) {
@@ -97,7 +98,7 @@ public class ExecuteScript implements Command {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Ошибка доступа к файлу: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка доступа к файлу: " + e.getMessage());
         } finally {
             // выход из уровня вложенности
             currentDepth--;

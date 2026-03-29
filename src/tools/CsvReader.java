@@ -1,6 +1,7 @@
 package tools;
 
 import models.*;
+import reader_manager.OutputManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,7 +73,7 @@ public class CsvReader {
         }
 
         if (missedLines > 0) {
-            System.out.println("Не удалось прочитать " + missedLines + " строк, неудачные элементы были пропущены");
+            OutputManager.errPrintln("Не удалось прочитать " + missedLines + " строк, неудачные элементы были пропущены");
         }
 
         scanner.close();

@@ -1,5 +1,7 @@
 package commands;
 
+import models.City;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -29,10 +31,12 @@ public class Show implements Command {
     @Override
     public void execute() {
         if (collectionManager.getCollection().isEmpty()) {
-            System.out.println("Коллекция пуста.");
+            OutputManager.errPrintln("Коллекция пуста.");
             return;
         }
-        collectionManager.getCollection().forEach(System.out::println);
+        for (City city : collectionManager.getCollection()) {
+            OutputManager.println(String.valueOf(city));
+        }
     }
 
     @Override

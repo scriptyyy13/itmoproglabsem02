@@ -2,6 +2,7 @@ package tools;
 
 import commands.Command;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,7 @@ public class CommandManager {
         if (command != null) {
             command.execute();
         } else {
-            System.out.println("Такой команды нет! Используйте команду help, чтобы посмотреть список команд\n");
+            OutputManager.errPrintln("Такой команды нет! Используйте команду help, чтобы посмотреть список команд\n");
         }
     }
 }

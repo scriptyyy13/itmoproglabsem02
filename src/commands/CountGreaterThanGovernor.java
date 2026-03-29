@@ -3,6 +3,7 @@ package commands;
 import models.City;
 import models.Human;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -35,11 +36,11 @@ public class CountGreaterThanGovernor implements Command {
     @Override
     public void execute() {
         try {
-            System.out.println("Введите governor для сравнения:");
+            OutputManager.println("Введите governor для сравнения:");
             Human referenceGovernor = inputManager.readHuman();
 
             if (referenceGovernor == null) {
-                System.out.println("Governor не введён.");
+                OutputManager.errPrintln("Governor не введён.");
                 return;
             }
 
@@ -54,10 +55,10 @@ public class CountGreaterThanGovernor implements Command {
                 }
             }
 
-            System.out.println("Количество городов с governor больше заданного: " + count);
+            OutputManager.println("Количество городов с governor больше заданного: " + count);
 
         } catch (Exception e) {
-            System.out.println("Ошибка при подсчёте: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при подсчёте: " + e.getMessage());
         }
     }
 

@@ -69,10 +69,10 @@ public class InputManager {
         String arg = nextArg();
         if (arg != null) return arg;
         while (true) {
-            System.out.println(message);
+            OutputManager.println(message);
             String input = scanner.nextLine();
             if (!input.isBlank()) return input;
-            System.out.println("Строка не может быть пустой.");
+            OutputManager.errPrintln("Строка не может быть пустой.");
         }
     }
 
@@ -92,22 +92,22 @@ public class InputManager {
                 if (value <= 0) throw new NumberFormatException();
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Некорректное значение в аргументе команды: " + arg);
+                OutputManager.errPrintln("Некорректное значение в аргументе команды: " + arg);
             }
         }
         while (true) {
-            System.out.println(message);
+            OutputManager.println(message);
             String input = scanner.nextLine();
             if (nullable && input.isBlank()) return null;
             try {
                 long value = Long.parseLong(input);
                 if (value <= 0) {
-                    System.out.println("Число должно быть > 0.");
+                    OutputManager.errPrintln("Число должно быть > 0.");
                     continue;
                 }
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Введите корректное число.");
+                OutputManager.errPrintln("Введите корректное число.");
             }
         }
     }
@@ -124,15 +124,15 @@ public class InputManager {
             try {
                 return Float.parseFloat(arg);
             } catch (NumberFormatException e) {
-                System.out.println("Некорректное значение в аргументе команды: " + arg);
+                OutputManager.errPrintln("Некорректное значение в аргументе команды: " + arg);
             }
         }
         while (true) {
-            System.out.println(message);
+            OutputManager.println(message);
             try {
                 return Float.parseFloat(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Введите корректное число.");
+                OutputManager.errPrintln("Введите корректное число.");
             }
         }
     }
@@ -152,20 +152,20 @@ public class InputManager {
                 if (value > maxValue) throw new NumberFormatException();
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Некорректное значение в аргументе команды: " + arg);
+                OutputManager.errPrintln("Некорректное значение в аргументе команды: " + arg);
             }
         }
         while (true) {
-            System.out.println(message);
+            OutputManager.println(message);
             try {
                 int value = Integer.parseInt(scanner.nextLine());
                 if (value > maxValue) {
-                    System.out.println("Значение не должно превышать " + maxValue);
+                    OutputManager.errPrintln("Значение не должно превышать " + maxValue);
                     continue;
                 }
                 return value;
             } catch (NumberFormatException e) {
-                System.out.println("Введите корректное число.");
+                OutputManager.errPrintln("Введите корректное число.");
             }
         }
     }
@@ -181,20 +181,20 @@ public class InputManager {
             try {
                 return Government.valueOf(arg);
             } catch (IllegalArgumentException e) {
-                System.out.println("Некорректное значение в аргументе команды: " + arg);
+                OutputManager.errPrintln("Некорректное значение в аргументе команды: " + arg);
             }
         }
         while (true) {
-            System.out.println("Выберите Government (пусто = null):");
+            OutputManager.println("Выберите Government (пусто = null):");
             for (Government g : Government.values()) {
-                System.out.println(g.name());
+                OutputManager.println(g.name());
             }
             String input = scanner.nextLine();
             if (input.isBlank()) return null;
             try {
                 return Government.valueOf(input);
             } catch (IllegalArgumentException e) {
-                System.out.println("Неверное значение enum.");
+                OutputManager.errPrintln("Неверное значение enum.");
             }
         }
     }
@@ -212,7 +212,7 @@ public class InputManager {
             return new Human(name, height, ZonedDateTime.now());
         }
 
-        System.out.println("Введите governor (пусто = null):");
+        OutputManager.println("Введите governor (пусто = null):");
         String name = scanner.nextLine();
         if (name.isBlank()) return null;
 

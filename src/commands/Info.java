@@ -1,5 +1,6 @@
 package commands;
 
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 import java.time.ZonedDateTime;
@@ -30,9 +31,9 @@ public class Info implements Command {
      */
     @Override
     public void execute() {
-        System.out.println("Тип коллекции: " + collectionManager.getCollection().getClass().getSimpleName());
-        System.out.println("Дата инициализации: " + ZonedDateTime.now());
-        System.out.println("Количество элементов: " + collectionManager.size());
+        OutputManager.println("Тип коллекции: " + collectionManager.getCollection().getClass().getSimpleName());
+        OutputManager.println("Дата инициализации: " + ZonedDateTime.now());
+        OutputManager.println("Количество элементов: " + collectionManager.size());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package commands;
 
 import models.City;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 import reader_manager.InputManager;
 
@@ -47,9 +48,9 @@ public class RemoveById implements Command {
         }
 
         if (found) {
-            System.out.println("Элемент с id " + id + " удалён.");
+            OutputManager.println("Элемент с id " + id + " удалён.");
         } else {
-            System.out.println("Элемент с id " + id + " не найден.");
+            OutputManager.errPrintln("Элемент с id " + id + " не найден.");
         }
     }
 

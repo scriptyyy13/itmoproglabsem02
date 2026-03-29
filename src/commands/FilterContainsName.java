@@ -2,6 +2,7 @@ package commands;
 
 import models.City;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -38,23 +39,23 @@ public class FilterContainsName implements Command {
 
             boolean found = false;
 
-            System.out.println("Элементы с name, содержащим '" + substring + "':");
+            OutputManager.println("Элементы с name, содержащим '" + substring + "':");
 
             // ищем
             for (City city : collectionManager.getCollection()) {
                 if (city.getName() != null && city.getName().contains(substring)) {
-                    System.out.println(city);
+                    OutputManager.println(String.valueOf(city));
                     found = true;
                 }
             }
 
             if (!found) {
-                System.out.println("Элементы с name, содержащим '"
+                OutputManager.errPrintln("Элементы с name, содержащим '"
                         + substring + "', не найдены.");
             }
 
         } catch (Exception e) {
-            System.out.println("Ошибка при фильтрации: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при фильтрации: " + e.getMessage());
         }
     }
 

@@ -3,6 +3,7 @@ package commands;
 import models.City;
 import models.Government;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -38,28 +39,28 @@ public class FilterByGovernment implements Command {
             Government government = inputManager.readGovernment();
 
             if (government == null) {
-                System.out.println("Government не введён.");
+                OutputManager.errPrintln("Government не введён.");
                 return;
             }
 
             boolean found = false;
 
-            System.out.println("Элементы с Government = " + government + ":");
+            OutputManager.println("Элементы с Government = " + government + ":");
 
             // ищем
             for (City city : collectionManager.getCollection()) {
                 if (government.equals(city.getGovernment())) {
-                    System.out.println(city);
+                    OutputManager.println(String.valueOf(city));
                     found = true;
                 }
             }
 
             if (!found) {
-                System.out.println("Элементы с Government = " + government + " не найдены.");
+                OutputManager.errPrintln("Элементы с Government = " + government + " не найдены.");
             }
 
         } catch (Exception e) {
-            System.out.println("Ошибка при фильтрации: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при фильтрации: " + e.getMessage());
         }
     }
 

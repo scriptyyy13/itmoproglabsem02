@@ -1,5 +1,6 @@
 package commands;
 
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 import reader_manager.FileManager;
 
@@ -43,7 +44,7 @@ public class Save implements Command {
         ArrayDeque<?> collection = collectionManager.getCollection();
 
         if (collection.isEmpty()) {
-            System.out.println("Коллекция пуста. Сохранять нечего.");
+            OutputManager.errPrintln("Коллекция пуста. Сохранять нечего.");
             return;
         }
 
@@ -53,7 +54,7 @@ public class Save implements Command {
                 throw new Exception("FileManager не инициализирован. Использование файла по умолчанию.");
             } catch (Exception e) {
                 // выводим сообщение исключения в консоль
-                System.out.println("Внимание: " + e.getMessage());
+                OutputManager.errPrintln("Внимание: " + e.getMessage());
 
                 // создаем дефолтный файл
                 fileName = "default.csv";
@@ -63,9 +64,9 @@ public class Save implements Command {
 
         try {
             fileManager.save(collectionManager.getCollection());
-            System.out.println("Коллекция успешно сохранена в файл: " + fileName);
+            OutputManager.println("Коллекция успешно сохранена в файл: " + fileName);
         } catch (Exception e) {
-            System.out.println("Ошибка при сохранении коллекции: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при сохранении коллекции: " + e.getMessage());
         }
     }
 

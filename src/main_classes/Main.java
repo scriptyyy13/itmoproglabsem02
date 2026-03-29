@@ -2,6 +2,7 @@ package main_classes;
 
 import reader_manager.FileManager;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 import tools.CommandManager;
 import commands.*;
@@ -44,12 +45,12 @@ public class Main {
             try {
                 fileManager = new FileManager(fileName);
                 collectionManager.getCollection().addAll(fileManager.load());
-                System.out.println("Данные загружены из файла: " + fileName); // TODO: Сделать отдельный менеджер вывода
+                OutputManager.println("Данные загружены из файла: " + fileName); // TODO: Сделать отдельный менеджер вывода
             } catch (Exception e) {
-                System.out.println("Не удалось загрузить файл: " + fileName + ". Коллекция будет пустой.");
+                OutputManager.errPrintln("Не удалось загрузить файл: " + fileName + ". Коллекция будет пустой.");
             }
         } else {
-            System.out.println("Файл не передан. Коллекция будет создана пустой.");
+            OutputManager.println("Файл не передан. Коллекция будет создана пустой.");
         }
 
         // создаем ввод
@@ -78,11 +79,11 @@ public class Main {
         commandManager.register("filter_contains_name", new FilterContainsName(collectionManager, inputManager));
         commandManager.register("exit", new Exit());
 
-        System.out.println("Программа запущена. Введите 'help', чтобы получить список команд.");
+        OutputManager.println("Программа запущена. Введите 'help', чтобы получить список команд.");
 
         // основной цикл интерактивного ввода
         while (true) {
-            System.out.print("> ");
+            OutputManager.print("> ");
             String line = scanner.nextLine().trim();
             if (line.isEmpty()) continue;
 

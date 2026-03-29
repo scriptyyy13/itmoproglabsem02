@@ -1,5 +1,6 @@
 package commands;
 
+import reader_manager.OutputManager;
 import tools.CommandManager;
 
 /**
@@ -29,7 +30,7 @@ public class Help implements Command {
         System.out.println("--- Список доступных команд ---");
         // Проходим по всем командам в мапе
         commandManager.getCommands().forEach((name, command) -> {
-            System.out.printf("%-30s : %s%n", name, command.getDescription());
+            OutputManager.printf("%-30s : %s%n", name, command.getDescription());
         });
     }
 

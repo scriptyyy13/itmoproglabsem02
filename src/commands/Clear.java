@@ -1,5 +1,6 @@
 package commands;
 
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -29,7 +30,7 @@ public class Clear implements Command {
     @Override
     public void execute() {
         collectionManager.clear();
-        System.out.println("Коллекция очищена.");
+        OutputManager.println("Коллекция очищена.");
     }
 
     @Override

@@ -2,6 +2,7 @@ package commands;
 
 import models.City;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -48,13 +49,13 @@ public class AddIfMax implements Command {
             // если коллекция пуста ИЛИ новый город больше максимального
             if (maxCity == null || newCity.getPopulation() > maxCity.getPopulation()) {
                 collectionManager.add(newCity);
-                System.out.println("Город добавлен (он больше всех): " + newCity);
+                OutputManager.println("Город добавлен (он больше всех): " + newCity);
             } else {
-                System.out.println("Город не добавлен, так как его population не превышает наибольшего в коллекции.");
+                OutputManager.errPrintln("Город не добавлен, так как его population не превышает наибольшего в коллекции.");
             }
 
         } catch (Exception e) {
-            System.out.println("Ошибка при добавлении города: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при добавлении города: " + e.getMessage());
         }
     }
 

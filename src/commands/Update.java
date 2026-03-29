@@ -2,6 +2,7 @@ package commands;
 
 import models.City;
 import reader_manager.InputManager;
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -46,16 +47,16 @@ public class Update implements Command {
         }
 
         if (foundCity == null) {
-            System.out.println("Элемент с id " + id + " не найден.");
+            OutputManager.errPrintln("Элемент с id " + id + " не найден.");
             return;
         }
 
         try {
             City newCity = inputManager.readCity();
             collectionManager.update(id, newCity);
-            System.out.println("Элемент с id " + id + " обновлен: " + newCity);
+            OutputManager.println("Элемент с id " + id + " обновлен: " + newCity);
         } catch (Exception e) {
-            System.out.println("Ошибка при обновлении города: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при обновлении города: " + e.getMessage());
         }
     }
 

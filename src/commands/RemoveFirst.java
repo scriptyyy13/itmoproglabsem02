@@ -1,5 +1,6 @@
 package commands;
 
+import reader_manager.OutputManager;
 import tools.CollectionManager;
 
 /**
@@ -29,10 +30,10 @@ public class RemoveFirst implements Command {
     @Override
     public void execute() {
         if (collectionManager.getCollection().isEmpty()) {
-            System.out.println("Коллекция пуста. Удалять нечего.");
+            OutputManager.errPrintln("Коллекция пуста. Удалять нечего.");
         } else {
             collectionManager.removeFirst();
-            System.out.println("Первый элемент коллекции удалён.");
+            OutputManager.println("Первый элемент коллекции удалён.");
         }
     }
 

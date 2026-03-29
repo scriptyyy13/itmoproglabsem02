@@ -1,5 +1,7 @@
 package commands;
 
+import reader_manager.OutputManager;
+
 /**
  * Команда exit.
  * Завершает работу программы без сохранения коллекции.
@@ -14,7 +16,7 @@ public class Exit implements Command {
      */
     @Override
     public void execute() {
-        System.out.println("Завершение работы программы...");
+        OutputManager.println("Завершение работы программы...");
         System.exit(0);
     }
 
