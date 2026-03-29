@@ -29,9 +29,7 @@ public class Help implements Command {
     public void execute() {
         System.out.println("--- Список доступных команд ---");
         // Проходим по всем командам в мапе
-        commandManager.getCommands().forEach((name, command) -> {
-            OutputManager.printf("%-30s : %s%n", name, command.getDescription());
-        });
+        commandManager.getCommands().forEach((name, command) -> OutputManager.printf("%-30s : %s%n", name, command.getDescription()));
     }
 
     @Override
