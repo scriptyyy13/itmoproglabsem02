@@ -45,7 +45,7 @@ public class Main {
             try {
                 fileManager = new FileManager(fileName);
                 collectionManager.getCollection().addAll(fileManager.load());
-                OutputManager.println("Данные загружены из файла: " + fileName); // TODO: Сделать отдельный менеджер вывода
+                OutputManager.println("Данные загружены из файла: " + fileName);
             } catch (Exception e) {
                 OutputManager.errPrintln("Не удалось загрузить файл: " + fileName + ". Коллекция будет пустой.");
             }
