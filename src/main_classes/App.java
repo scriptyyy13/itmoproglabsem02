@@ -5,6 +5,14 @@ import tools.CommandManager;
 import reader_manager.OutputManager;
 import java.util.NoSuchElementException;
 
+/**
+ * Основной класс приложения.
+ *
+ * Содержит основной цикл обработки ввода.
+ *
+ * author Ыскшзеннн
+ * version 1.0
+ */
 public class App {
     private final CommandManager commandManager;
     private final InputManager inputManager;
