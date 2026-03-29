@@ -39,19 +39,7 @@ public class Main {
 
         // создание менеджеров
         CollectionManager collectionManager = new CollectionManager();
-        FileManager fileManager = null;
-
-        if (fileName != null) {
-            try {
-                fileManager = new FileManager(fileName);
-                collectionManager.getCollection().addAll(fileManager.load());
-                OutputManager.println("Данные загружены из файла: " + fileName);
-            } catch (Exception e) {
-                OutputManager.errPrintln("Не удалось загрузить файл: " + fileName + ". Коллекция будет пустой.");
-            }
-        } else {
-            OutputManager.println("Файл не передан. Коллекция будет создана пустой.");
-        }
+        FileManager fileManager = initFileManager(fileName, collectionManager);
 
         // создаем ввод
         Scanner scanner = new Scanner(System.in);
@@ -60,45 +48,47 @@ public class Main {
         // менеджер команд
         CommandManager commandManager = new CommandManager();
         commandManager.setInputManager(inputManager);
-
         // регистрация всех команд
-        commandManager.register("help", new Help(commandManager));
-        commandManager.register("add", new Add(collectionManager, inputManager));
-        commandManager.register("update", new Update(collectionManager, inputManager));
-        commandManager.register("remove_by_id", new RemoveById(collectionManager, inputManager));
-        commandManager.register("show", new Show(collectionManager));
-        commandManager.register("info", new Info(collectionManager));
-        commandManager.register("clear", new Clear(collectionManager));
-        commandManager.register("remove_first", new RemoveFirst(collectionManager));
-        commandManager.register("save", new Save(collectionManager, fileManager));
-        commandManager.register("execute_script", new ExecuteScript(commandManager, inputManager));
-        commandManager.register("add_if_max", new AddIfMax(collectionManager, inputManager));
-        commandManager.register("add_if_min", new AddIfMin(collectionManager, inputManager));
-        commandManager.register("count_greater_than_governor", new CountGreaterThanGovernor(collectionManager, inputManager));
-        commandManager.register("filter_by_government", new FilterByGovernment(collectionManager, inputManager));
-        commandManager.register("filter_contains_name", new FilterContainsName(collectionManager, inputManager));
-        commandManager.register("exit", new Exit());
+        registerAllCommands(commandManager, collectionManager, inputManager, fileManager);
 
-        OutputManager.println("Программа запущена. Введите 'help', чтобы получить список команд.");
+        // запускаем программу
+        App app = new App(commandManager, inputManager);
+        app.run();
+    }
 
-        // основной цикл интерактивного ввода
-        while (true) {
-            OutputManager.print("> ");
-            String line = scanner.nextLine().trim();
-            if (line.isEmpty()) continue;
-
-            String[] parts = line.split(" ");
-            String commandName = parts[0];
-
-            // подготовка аргументов для команды
-            String[] cmdArgs = new String[parts.length - 1];
-            System.arraycopy(parts, 1, cmdArgs, 0, cmdArgs.length);
-
-            // передаем буфер аргументов в InputManager
-            inputManager.setArgBuffer(cmdArgs);
-
-            // выполнение команды
-            commandManager.execute(commandName);
+    private static FileManager initFileManager(String fileName, CollectionManager col) {
+        if (fileName == null) {
+            OutputManager.println("Файл не передан. Коллекция пуста.");
+            return null;
+        }
+        try {
+            FileManager fm = new FileManager(fileName);
+            col.getCollection().addAll(fm.load());
+            OutputManager.println("Данные загружены.");
+            return fm;
+        } catch (Exception e) { // Здесь лучше заменить на конкретные типы
+            OutputManager.errPrintln("Ошибка загрузки: " + e.getMessage());
+            return null;
         }
     }
+
+    private static void registerAllCommands(CommandManager cm, CollectionManager col, InputManager in, FileManager fm) {
+        cm.register("help", new Help(cm));
+        cm.register("add", new Add(col, in));
+        cm.register("update", new Update(col, in));
+        cm.register("remove_by_id", new RemoveById(col, in));
+        cm.register("show", new Show(col));
+        cm.register("info", new Info(col));
+        cm.register("clear", new Clear(col));
+        cm.register("remove_first", new RemoveFirst(col));
+        cm.register("save", new Save(col, fm));
+        cm.register("execute_script", new ExecuteScript(cm, in));
+        cm.register("add_if_max", new AddIfMax(col, in));
+        cm.register("add_if_min", new AddIfMin(col, in));
+        cm.register("count_greater_than_governor", new CountGreaterThanGovernor(col, in));
+        cm.register("filter_by_government", new FilterByGovernment(col, in));
+        cm.register("filter_contains_name", new FilterContainsName(col, in));
+        cm.register("exit", new Exit());
+    }
+
 }
