@@ -79,7 +79,7 @@ public class ExecuteScript implements Command {
                 String line = scanner.nextLine().trim();
                 if (line.isEmpty() || line.startsWith("#")) continue;
 
-                String[] parts = line.split(" ");
+                String[] parts = line.split("\\s+");
                 String cmdName = parts[0];
                 String[] args = new String[parts.length - 1];
                 System.arraycopy(parts, 1, args, 0, args.length);

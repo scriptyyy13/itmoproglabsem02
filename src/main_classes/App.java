@@ -39,7 +39,7 @@ public class App {
                 String line = inputManager.getScanner().nextLine().trim();
                 if (line.isEmpty()) continue;
 
-                String[] parts = line.split(" ");
+                String[] parts = line.split("\\s+");
                 String commandName = parts[0];
 
                 // подготовка аргументов для команды
