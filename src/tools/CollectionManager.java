@@ -46,6 +46,7 @@ public class CollectionManager {
      */
     public void update(long id, City newCity) {
         City toRemove = null;
+
         for (City city : collection) {
             if (city.getId() == id) {
                 toRemove = city;
@@ -54,6 +55,8 @@ public class CollectionManager {
         }
 
         if (toRemove != null) {
+            newCity.setId(id);
+
             collection.remove(toRemove);
             collection.add(newCity);
         } else {
