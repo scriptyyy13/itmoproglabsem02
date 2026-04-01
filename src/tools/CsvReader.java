@@ -57,10 +57,10 @@ public class CsvReader {
                         coordinates,
                         Long.parseLong(fields[4]),
                         Long.parseLong(fields[5]),
-                        fields[6].isEmpty() ? null : Long.parseLong(fields[6]),
+                        (!fields[6].trim().isEmpty()) ? Long.valueOf(fields[6].trim()) : (Long) null,
                         null,
                         Long.parseLong(fields[7]),
-                        fields[8].isEmpty() ? null : Government.valueOf(fields[8]),
+                        (fields.length > 8 && !fields[8].isEmpty()) ? Government.valueOf(fields[8]) : (Government) null,
                         null
                 );
 
