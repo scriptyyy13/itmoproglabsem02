@@ -96,10 +96,18 @@ public class City implements Comparable<City> {
     public String toString() {
         return "City{id=" + id +
                 ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", area=" + area +
                 ", population=" + population +
+                ", creationDate=" + creationDate +
+                ", metersAboveSeaLevel=" + metersAboveSeaLevel +
+                ", agglomeration=" + agglomeration +
+                ", governor=" + governor +
                 ", government=" + government +
+                ", establishmentDate=" + establishmentDate +
                 '}';
     }
+
 
     /**
      * Преобразует объект City в csv строку.
