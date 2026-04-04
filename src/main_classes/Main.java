@@ -1,5 +1,6 @@
 package main_classes;
 
+import models.City;
 import reader_manager.FileManager;
 import reader_manager.InputManager;
 import reader_manager.OutputManager;
@@ -17,7 +18,7 @@ import java.util.Scanner;
  * запуска класса App, содержащий прием ввода и основной цикл обработки ввода.
  *
  * author Ыскшзеннн
- * version 1.0
+ * version 1.1
  */
 public class Main {
 
@@ -35,13 +36,13 @@ public class Main {
             fileName = args[0];
         }
 
-        // создание менеджеров
-        CollectionManager collectionManager = new CollectionManager();
-        FileManager fileManager = initFileManager(fileName, collectionManager);
-
         // создаем ввод
         Scanner scanner = new Scanner(System.in);
         InputManager inputManager = new InputManager(scanner);
+
+        // создание менеджеров
+        CollectionManager collectionManager = new CollectionManager();
+        FileManager fileManager = initFileManager(fileName, collectionManager, inputManager);
 
         // менеджер команд
         CommandManager commandManager = new CommandManager();
@@ -54,20 +55,28 @@ public class Main {
         app.run();
     }
 
-    private static FileManager initFileManager(String fileName, CollectionManager col) {
+    private static FileManager initFileManager(String fileName, CollectionManager col, InputManager im) {
         if (fileName == null) {
-            OutputManager.println("Файл не передан. Коллекция пуста.");
-            return null;
+            fileName = "default_" + System.currentTimeMillis() + ".csv";
+            OutputManager.println("Файл не передан. Используется: " + fileName);
         }
+
+        FileManager fm = new FileManager(fileName, im);
+
         try {
-            FileManager fm = new FileManager(fileName);
-            col.getCollection().addAll(fm.load());
+            fm.attemptMerge(col.getCollection());
+
+            // если коллекция пуста загружаем обычно
+            if (col.getCollection().isEmpty()) {
+                col.getCollection().addAll(fm.load());
+            }
+
             OutputManager.println("Данные загружены.");
-            return fm;
-        } catch (Exception e) { // Здесь лучше заменить на конкретные типы
+        } catch (Exception e) {
             OutputManager.errPrintln("Ошибка загрузки: " + e.getMessage());
-            return null;
         }
+
+        return fm;
     }
 
     private static void registerAllCommands(CommandManager cm, CollectionManager col, InputManager in, FileManager fm) {
