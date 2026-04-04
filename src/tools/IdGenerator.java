@@ -41,6 +41,15 @@ public class IdGenerator {
     }
 
     /**
+     * Получить максимальный доступный айди.
+     *
+     * @return currentId
+     */
+    public static long getCurrentId() {
+        return currentId;
+    }
+
+    /**
      * Сбрасывает генератор.
      */
     public static void reset() {
