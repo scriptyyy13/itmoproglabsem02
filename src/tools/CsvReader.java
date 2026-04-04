@@ -29,7 +29,7 @@ public class CsvReader {
      * author Ыскшзеннн
      * version 1.0
      */
-    public static ArrayDeque<City> read(String fileName) throws FileNotFoundException {
+    public static ArrayDeque<City> read(String fileName, boolean correctIds) throws FileNotFoundException {
 
         ArrayDeque<City> collection = new ArrayDeque<>();
 
@@ -63,9 +63,16 @@ public class CsvReader {
                         (fields.length > 8 && !fields[8].isEmpty()) ? Government.valueOf(fields[8]) : (Government) null,
                         null
                 );
-
-                IdGenerator.updateId(id);
+                if (!correctIds) {
+                    IdGenerator.updateId(id);
+                }
                 collection.add(city);
+                if (correctIds) {
+                    collection.peekLast().setId(id);
+                    if (IdGenerator.getCurrentId() < id) {
+                        IdGenerator.updateId(id);
+                    }
+                }
 
             } catch (Exception e) {
                 missedLines++;
