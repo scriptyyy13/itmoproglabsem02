@@ -1,5 +1,6 @@
 package commands;
 
+import models.City;
 import reader_manager.OutputManager;
 import tools.CollectionManager;
 import reader_manager.FileManager;
@@ -41,33 +42,14 @@ public class Save implements Command {
      */
     @Override
     public void execute() {
-        ArrayDeque<?> collection = collectionManager.getCollection();
+        ArrayDeque<City> collection = collectionManager.getCollection();
 
         if (collection.isEmpty()) {
             OutputManager.errPrintln("Коллекция пуста. Сохранять нечего.");
             return;
         }
 
-        // если FileManager отсутствует, создаём default.csv
-        if (fileManager == null) {
-            try {
-                throw new Exception("FileManager не инициализирован. Использование файла по умолчанию.");
-            } catch (Exception e) {
-                // выводим сообщение исключения в консоль
-                OutputManager.errPrintln("Внимание: " + e.getMessage());
-
-                // создаем дефолтный файл
-                fileName = "default.csv";
-                fileManager = new FileManager(fileName);
-            }
-        }
-
-        try {
-            fileManager.save(collectionManager.getCollection());
-            OutputManager.println("Коллекция успешно сохранена в файл: " + fileName);
-        } catch (Exception e) {
-            OutputManager.errPrintln("Ошибка при сохранении коллекции: " + e.getMessage());
-        }
+        fileManager.save(collection);
     }
 
     @Override
