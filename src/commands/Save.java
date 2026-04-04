@@ -37,8 +37,7 @@ public class Save implements Command {
 
     /**
      * Выполняет команду.
-     * Сохраняет все элементы коллекции в файл.
-     * Если менеджер файла не передан, создаёт новый файл default.csv
+     * Сохраняет коллекцию.
      */
     @Override
     public void execute() {
