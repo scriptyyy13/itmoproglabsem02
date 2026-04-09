@@ -63,12 +63,14 @@ public class Main {
      * @return инициализированный менеджер файлов
      */
     private static FileManager initFileManager(String fileName, CollectionManager col, InputManager im) {
+        boolean isFileCreated = false;
         if (fileName == null) {
             fileName = "default_" + System.currentTimeMillis() + ".csv";
             OutputManager.println("Файл не передан. Используется: " + fileName);
+            isFileCreated = true;
         }
 
-        FileManager fm = new FileManager(fileName, im);
+        FileManager fm = new FileManager(fileName, im, isFileCreated);
 
         try {
             fm.attemptMerge(col.getCollection());
@@ -77,8 +79,9 @@ public class Main {
             if (col.getCollection().isEmpty()) {
                 col.getCollection().addAll(fm.load());
             }
-
-            OutputManager.println("Данные загружены.");
+            if (!isFileCreated) {
+                OutputManager.println("Данные загружены.");
+            }
         } catch (Exception e) {
             OutputManager.errPrintln("Ошибка загрузки: " + e.getMessage());
         }
