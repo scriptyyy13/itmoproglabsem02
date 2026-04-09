@@ -24,6 +24,7 @@ public class FileManager {
     private final String fileName;
     private final String backupFile;
     private final String tempFile;
+    private final Boolean isFileCreated;
     private final InputManager input;
 
     /**
@@ -32,9 +33,10 @@ public class FileManager {
      * @param fileName имя файла .csv
      * @param im менеджер для чтения пользовательского ввода
      */
-    public FileManager(String fileName, InputManager im) {
+    public FileManager(String fileName, InputManager im, boolean isFileCreated) {
         this.fileName = fileName;
         this.input = im;
+        this.isFileCreated = isFileCreated;
         this.backupFile = fileName.replace(".csv", ".backup");
         this.tempFile = fileName.replace(".csv", ".temp");
     }
@@ -58,7 +60,9 @@ public class FileManager {
         try {
             return CsvReader.read(fileName, false);
         } catch (FileNotFoundException e) {
-            OutputManager.println("Основной файл не найден, загружаю из резервной копии...");
+            if (!isFileCreated) {
+                OutputManager.println("Основной файл не найден, загружаю из резервной копии...");
+            }
             try {
                 return CsvReader.read(backupFile, false);
             } catch (FileNotFoundException e2) {
