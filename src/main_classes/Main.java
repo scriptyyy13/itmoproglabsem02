@@ -55,6 +55,13 @@ public class Main {
         app.run();
     }
 
+    /**
+     * Инициализация менеджера файла
+     * @param fileName имя файла
+     * @param col менеджер коллекции
+     * @param im менеджер пользовательского ввода
+     * @return инициализированный менеджер файлов
+     */
     private static FileManager initFileManager(String fileName, CollectionManager col, InputManager im) {
         if (fileName == null) {
             fileName = "default_" + System.currentTimeMillis() + ".csv";
@@ -79,6 +86,13 @@ public class Main {
         return fm;
     }
 
+    /**
+     * Инициализация всех команж
+     * @param cm менеджер команд
+     * @param col менеджер коллекции
+     * @param in менеджер пользовательского ввода
+     * @param fm менеджер файлов
+     */
     private static void registerAllCommands(CommandManager cm, CollectionManager col, InputManager in, FileManager fm) {
         cm.register("help", new Help(cm));
         cm.register("add", new Add(col, in));

@@ -17,11 +17,20 @@ public class App {
     private final CommandManager commandManager;
     private final InputManager inputManager;
 
+    /**
+     * Конструктор основного класса приложения.
+     *
+     * @param commandManager менеджер команд для выполнения команд из файла
+     * @param inputManager менеджер для чтения пользовательского ввода
+     */
     public App(CommandManager commandManager, InputManager inputManager) {
         this.commandManager = commandManager;
         this.inputManager = inputManager;
     }
 
+    /**
+     * Метод с основным циклом программы
+     */
     public void run() {
         OutputManager.println("Программа запущена. Введите 'help', чтобы получить список команд.");
 

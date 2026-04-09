@@ -33,6 +33,7 @@ public class ExecuteScript implements Command {
      * Конструктор команды ExecuteScript.
      *
      * @param commandManager менеджер команд для выполнения команд из файла
+     * @param inputManager менеджер для чтения пользовательского ввода
      */
     public ExecuteScript(CommandManager commandManager, InputManager inputManager) {
         this.commandManager = commandManager;
