@@ -30,6 +30,7 @@ public class FileManager {
      * Конструктор FileManager.
      *
      * @param fileName имя файла .csv
+     * @param im менеджер для чтения пользовательского ввода
      */
     public FileManager(String fileName, InputManager im) {
         this.fileName = fileName;
@@ -169,7 +170,7 @@ public class FileManager {
                 collection.clear();
                 collection.addAll(tempData);
             } catch (FileNotFoundException e2) {
-                // оба файла недоступны
+                OutputManager.errPrintln("Временный и основной файлы недоступны.");
             }
         }
     }
