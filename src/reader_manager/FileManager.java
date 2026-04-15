@@ -19,8 +19,6 @@ import java.util.Set;
  * version 1.2
  */
 public class FileManager {
-
-
     private final String fileName;
     private final String backupFile;
     private final String tempFile;
