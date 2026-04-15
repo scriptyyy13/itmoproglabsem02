@@ -2,6 +2,7 @@ package tools;
 
 import models.City;
 import java.io.*;
+import java.util.Iterator;
 
 /**
  * Класс для логирования операций (WAL).
@@ -43,6 +44,48 @@ public class LogOperations {
     }
 
     /**
+     * Читает лог и заново выполняет все операции.
+     */
+    public void recoverFromLog(CollectionManager collectionManager) {
+        File file = new File(logFile);
+        if (!file.exists()) return;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|"); // Разделяем команду и данные
+                String command = parts[0];
+
+                if (command.equals("ADD")) {
+                    collectionManager.add(City.parseCity(parts[1]));
+                }
+                else if (command.equals("UPDATE")) {
+                    long id = Long.parseLong(parts[1]);
+                    collectionManager.update(id, City.parseCity(parts[2]));
+                }
+                else if (command.equals("REMOVE")) {
+                    long id = Long.parseLong(parts[1]);
+                    // используем итератор, чтобы не было ошибки при удалении
+                    Iterator<City> it = collectionManager.getCollection().iterator();
+                    while (it.hasNext()) {
+                        if (it.next().getId() == id) {
+                            it.remove();
+                            break;
+                        }
+                    }
+                }
+                else if (command.equals("CLEAR")) {
+                    collectionManager.clear();
+                }
+            }
+        } catch (Exception e) {
+                System.err.println("Ошибка при чтении лога: " + e.getMessage());
+        } finally {
+            clearLog(); // удаляем лог после восстановления
+        }
+    }
+
+    /**
      * Очищает лог (после успешного сохранения)
      */
     public void clearLog() {
@@ -52,9 +95,9 @@ public class LogOperations {
     private void writeLog(String entry) {
         try (FileWriter fw = new FileWriter(logFile, true);
              BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write(entry);
-            bw.newLine();
-            bw.flush();
+                bw.write(entry);
+                bw.newLine();
+                bw.flush();
         } catch (IOException e) {
             System.err.println("Ошибка записи лога: " + e.getMessage());
         }

@@ -83,6 +83,9 @@ public class Main {
             if (col.getCollection().isEmpty()) {
                 col.getCollection().addAll(fm.load());
             }
+
+            logger.recoverFromLog(col);
+
             if (!isFileCreated) {
                 OutputManager.println("Данные загружены.");
             }
