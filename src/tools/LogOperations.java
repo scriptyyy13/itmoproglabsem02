@@ -63,7 +63,7 @@ public class LogOperations {
         File file = new File(logFile);
         if (!file.exists()) return;
         OutputManager.println("При последнем выполнении программа прервалась до сохранения.");
-        String answer = input.readNonEmptyString("Восстановить несохраненные изменения? (да/нет): ");
+        String answer = input.readNonEmptyString("После выбора восстановление будет невозможно \nВосстановить несохраненные изменения? (да/нет): ");
 
         if (!(answer.startsWith("д") || answer.startsWith("y"))) {
             clearLog();
