@@ -84,7 +84,8 @@ public class Main {
                 col.getCollection().addAll(fm.load());
             }
 
-            logger.recoverFromLog(col);
+            logger.recoverFromLog(col); // восстанавливаем из лога (если файл существует)
+            logger.changeIsLogActive(true);
 
             if (!isFileCreated) {
                 OutputManager.println("Данные загружены.");

@@ -1,6 +1,9 @@
 package tools;
 
 import models.City;
+import reader_manager.InputManager;
+import reader_manager.OutputManager;
+
 import java.io.*;
 import java.util.Iterator;
 
@@ -10,9 +13,17 @@ import java.util.Iterator;
  */
 public class LogOperations {
     private final String logFile;
+    private boolean isLogActive = false;
 
     public LogOperations(String fileName) {
         this.logFile = fileName.replace(".csv", ".log");
+    }
+
+    /**
+     * Переключение логирования
+     */
+    public void changeIsLogActive(boolean isLogActive) {
+        this.isLogActive = isLogActive;
     }
 
     /**
@@ -52,6 +63,7 @@ public class LogOperations {
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+            Integer operationsCount = 0;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\\|", 2); // разделяем команду и данные
                 String command = parts[0];
@@ -78,9 +90,14 @@ public class LogOperations {
                 else if (command.equals("CLEAR")) {
                     collectionManager.clear();
                 }
+                operationsCount++;
+            }
+            if (operationsCount > 0) {
+                OutputManager.println("Восстановлено операций: " + operationsCount + "\n" +
+                        "Не забудьте сохраниться! (команда save)");
             }
         } catch (Exception e) {
-                System.err.println("Ошибка при чтении лога: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка при чтении лога: " + e.getMessage());
         } finally {
             clearLog(); // удаляем лог после восстановления
         }
@@ -94,13 +111,14 @@ public class LogOperations {
     }
 
     private void writeLog(String entry) {
+        if (!isLogActive) return;
         try (FileWriter fw = new FileWriter(logFile, true);
              BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(entry);
                 bw.newLine();
                 bw.flush();
         } catch (IOException e) {
-            System.err.println("Ошибка записи лога: " + e.getMessage());
+            OutputManager.errPrintln("Ошибка записи лога: " + e.getMessage());
         }
     }
 
