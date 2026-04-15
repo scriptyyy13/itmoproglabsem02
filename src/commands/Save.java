@@ -20,7 +20,6 @@ public class Save implements Command {
 
     private final CollectionManager collectionManager;
     private FileManager fileManager;
-    private String fileName;
     private LogOperations logger;
 
     /**
@@ -32,9 +31,6 @@ public class Save implements Command {
     public Save(CollectionManager collectionManager, FileManager fileManager, LogOperations logger) {
         this.collectionManager = collectionManager;
         this.fileManager = fileManager;
-        if (fileManager != null) {
-            this.fileName = fileManager.getFileName();
-        }
         this.logger = logger;
     }
 
