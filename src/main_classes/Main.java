@@ -43,7 +43,7 @@ public class Main {
 
         // создание менеджеров
         CollectionManager collectionManager = new CollectionManager();
-        LogOperations logger = new LogOperations(fileName != null ? fileName : "default_" + startTime + ".csv");
+        LogOperations logger = new LogOperations(fileName != null ? fileName : "default_" + startTime + ".csv", inputManager);
         collectionManager.setLogger(logger);
         FileManager fileManager = initFileManager(fileName, collectionManager, inputManager, logger, startTime);
 
