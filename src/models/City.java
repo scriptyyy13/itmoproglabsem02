@@ -109,6 +109,34 @@ public class City implements Comparable<City> {
                 '}';
     }
 
+    /**
+     * Преобразует csv строку в объект City.
+     */
+    public static City parseCity(String csvLine) {
+        String[] fields = csvLine.split(",");
+        try {
+            long id = Long.parseLong(fields[0]);
+            Float x = Float.parseFloat(fields[2]);
+            Integer y = Integer.parseInt(fields[3]);
+            Coordinates coordinates = new Coordinates(x, y);
+
+            City city = new City(
+                    fields[1],
+                    coordinates,
+                    Long.parseLong(fields[4]),
+                    Long.parseLong(fields[5]),
+                    (!fields[6].trim().isEmpty()) ? Long.valueOf(fields[6].trim()) : (Long) null,
+                    null,
+                    Long.parseLong(fields[7]),
+                    (fields.length > 8 && !fields[8].isEmpty()) ? Government.valueOf(fields[8]) : (Government) null,
+                    null
+            );
+            return city;
+        } catch (Exception e) {
+            System.err.println("Ошибка при чтении города: " + e.getMessage());
+        }
+        return null;
+    }
 
     /**
      * Преобразует объект City в csv строку.
