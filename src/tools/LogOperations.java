@@ -14,9 +14,11 @@ import java.util.Iterator;
 public class LogOperations {
     private final String logFile;
     private boolean isLogActive = false;
+    private final InputManager input;
 
-    public LogOperations(String fileName) {
+    public LogOperations(String fileName, InputManager inputManager) {
         this.logFile = fileName.replace(".csv", ".log");
+        this.input = inputManager;
     }
 
     /**
@@ -60,7 +62,14 @@ public class LogOperations {
     public void recoverFromLog(CollectionManager collectionManager) {
         File file = new File(logFile);
         if (!file.exists()) return;
+        OutputManager.println("При последнем выполнении программа прервалась до сохранения.");
+        String answer = input.readNonEmptyString("Восстановить несохраненные изменения? (да/нет): ");
 
+        if (!(answer.startsWith("д") || answer.startsWith("y"))) {
+            clearLog();
+            return;
+        };
+        // при получении положительного ответа восстанавливаем
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             Integer operationsCount = 0;
