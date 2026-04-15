@@ -110,7 +110,7 @@ public class FileManager {
     private void handleUnavailableFile(ArrayDeque<City> collection) {
         OutputManager.println("Файл недоступен или произошла ошибка записи.");
 
-        String answer = input.readNonEmptyString("Создать временный файл для сохранения? (да/нет) ");
+        String answer = input.readNonEmptyString("Создать временный файл для сохранения? (да/нет): ");
 
         if (answer.startsWith("д") || answer.startsWith("y")) {
             try {
