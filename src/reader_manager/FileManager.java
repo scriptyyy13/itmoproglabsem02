@@ -66,7 +66,11 @@ public class FileManager {
             try {
                 return CsvReader.read(backupFile, false);
             } catch (FileNotFoundException e2) {
-                OutputManager.println("Коллекция будет пустой.");
+                if (!isFileCreated) {
+                    OutputManager.println("Коллекция будет пустой, резервный файл не найден.");
+                } else {
+                    OutputManager.println("Коллекция будет пустой.");
+                }
                 return new ArrayDeque<>();
             }
         }
