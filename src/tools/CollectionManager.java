@@ -41,8 +41,8 @@ public class CollectionManager {
      * @param city объект City для добавления
      */
     public void add(City city) {
-        if (logger != null) logger.logAdd(city);
         collection.add(city);
+        if (logger != null) logger.logAdd(city);
     }
 
     /**
@@ -64,11 +64,10 @@ public class CollectionManager {
         }
 
         if (toRemove != null) {
-            if (logger != null) logger.logUpdate(id, newCity);
             newCity.setId(id);
-
             collection.remove(toRemove);
             collection.add(newCity);
+            if (logger != null) logger.logUpdate(id, newCity);
         } else {
             throw new IllegalArgumentException("Элемент с id " + id + " не найден.");
         }
@@ -79,16 +78,18 @@ public class CollectionManager {
      * Если коллекция пуста, ничего не делает.
      */
     public void removeFirst() {
-        logger.logRemove(collection.getFirst().getId());
+        if (collection.isEmpty()) return;
+        Long id = collection.getFirst().getId();
         collection.pollFirst();
+        if (logger != null) logger.logRemove(id);
     }
 
     /**
      * Очищает всю коллекцию.
      */
     public void clear() {
-        if (logger != null) logger.logClear();
         collection.clear();
+        if (logger != null) logger.logClear();
     }
 
     /**
