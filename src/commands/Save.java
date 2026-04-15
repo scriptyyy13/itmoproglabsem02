@@ -49,14 +49,13 @@ public class Save implements Command {
         if (collection.isEmpty()) {
             OutputManager.errPrintln("Коллекция пуста. Сохранять нечего.");
             return;
-        } else {
-            if (logger != null) {
-                logger.clearLog();
-                OutputManager.println("Лог операций очищен.");
-            }
         }
 
         fileManager.save(collection);
+        if (logger != null) {
+            logger.clearLog();
+            OutputManager.println("Лог операций очищен.");
+        }
     }
 
     @Override
