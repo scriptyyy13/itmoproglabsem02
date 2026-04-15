@@ -17,6 +17,14 @@ public class CollectionManager {
      * Основная коллекция, которая хранит объекты City.
      */
     private final ArrayDeque<City> collection = new ArrayDeque<>();
+    private LogOperations logger;
+
+    /**
+     * Установить логгер.
+     */
+    public void setLogger(LogOperations logger) {
+        this.logger = logger;
+    }
 
     /**
      * Возвращает коллекцию.
@@ -33,6 +41,7 @@ public class CollectionManager {
      * @param city объект City для добавления
      */
     public void add(City city) {
+        if (logger != null) logger.logAdd(city);
         collection.add(city);
     }
 
@@ -55,6 +64,7 @@ public class CollectionManager {
         }
 
         if (toRemove != null) {
+            if (logger != null) logger.logUpdate(id, newCity);
             newCity.setId(id);
 
             collection.remove(toRemove);
@@ -69,6 +79,7 @@ public class CollectionManager {
      * Если коллекция пуста, ничего не делает.
      */
     public void removeFirst() {
+        logger.logRemove(collection.getFirst().getId());
         collection.pollFirst();
     }
 
@@ -76,6 +87,7 @@ public class CollectionManager {
      * Очищает всю коллекцию.
      */
     public void clear() {
+        if (logger != null) logger.logClear();
         collection.clear();
     }
 

@@ -6,6 +6,7 @@ import reader_manager.OutputManager;
 import tools.CollectionManager;
 import tools.CommandManager;
 import commands.*;
+import tools.LogOperations;
 
 import java.util.Scanner;
 
@@ -31,6 +32,7 @@ public class Main {
      */
     public static void main(String[] args) {
         String fileName = null;
+        String startTime = String.valueOf(System.currentTimeMillis());
         if (args.length > 0) {
             fileName = args[0];
         }
@@ -41,13 +43,15 @@ public class Main {
 
         // создание менеджеров
         CollectionManager collectionManager = new CollectionManager();
-        FileManager fileManager = initFileManager(fileName, collectionManager, inputManager);
+        LogOperations logger = new LogOperations(fileName != null ? fileName : "default_" + startTime + ".csv");
+        collectionManager.setLogger(logger);
+        FileManager fileManager = initFileManager(fileName, collectionManager, inputManager, logger, startTime);
 
         // менеджер команд
         CommandManager commandManager = new CommandManager();
         commandManager.setInputManager(inputManager);
         // регистрация всех команд
-        registerAllCommands(commandManager, collectionManager, inputManager, fileManager);
+        registerAllCommands(commandManager, collectionManager, inputManager, fileManager, logger);
 
         // запускаем программу
         App app = new App(commandManager, inputManager);
@@ -62,10 +66,10 @@ public class Main {
      * @param im менеджер пользовательского ввода
      * @return инициализированный менеджер файлов
      */
-    private static FileManager initFileManager(String fileName, CollectionManager col, InputManager im) {
+    private static FileManager initFileManager(String fileName, CollectionManager col, InputManager im, LogOperations logger, String startTime) {
         boolean isFileCreated = false;
         if (fileName == null) {
-            fileName = "default_" + System.currentTimeMillis() + ".csv";
+            fileName = "default_" + startTime + ".csv";
             OutputManager.println("Файл не передан. Используется: " + fileName);
             isFileCreated = true;
         }
@@ -82,6 +86,7 @@ public class Main {
             if (!isFileCreated) {
                 OutputManager.println("Данные загружены.");
             }
+            logger.clearLog();
         } catch (Exception e) {
             OutputManager.errPrintln("Ошибка загрузки: " + e.getMessage());
         }
@@ -97,16 +102,16 @@ public class Main {
      * @param in менеджер пользовательского ввода
      * @param fm менеджер файлов
      */
-    private static void registerAllCommands(CommandManager cm, CollectionManager col, InputManager in, FileManager fm) {
+    private static void registerAllCommands(CommandManager cm, CollectionManager col, InputManager in, FileManager fm, LogOperations logger) {
         cm.register("help", new Help(cm));
         cm.register("add", new Add(col, in));
         cm.register("update", new Update(col, in));
-        cm.register("remove_by_id", new RemoveById(col, in));
+        cm.register("remove_by_id", new RemoveById(col, in, logger));
         cm.register("show", new Show(col));
         cm.register("info", new Info(col));
         cm.register("clear", new Clear(col));
         cm.register("remove_first", new RemoveFirst(col));
-        cm.register("save", new Save(col, fm));
+        cm.register("save", new Save(col, fm, logger));
         cm.register("execute_script", new ExecuteScript(cm, in));
         cm.register("add_if_max", new AddIfMax(col, in));
         cm.register("add_if_min", new AddIfMin(col, in));

@@ -4,6 +4,7 @@ import models.City;
 import reader_manager.OutputManager;
 import tools.CollectionManager;
 import reader_manager.FileManager;
+import tools.LogOperations;
 
 import java.util.ArrayDeque;
 
@@ -20,6 +21,7 @@ public class Save implements Command {
     private final CollectionManager collectionManager;
     private FileManager fileManager;
     private String fileName;
+    private LogOperations logger;
 
     /**
      * Конструктор команды Save.
@@ -27,12 +29,13 @@ public class Save implements Command {
      * @param collectionManager менеджер коллекции
      * @param fileManager менеджер для работы с файлом (может быть null)
      */
-    public Save(CollectionManager collectionManager, FileManager fileManager) {
+    public Save(CollectionManager collectionManager, FileManager fileManager, LogOperations logger) {
         this.collectionManager = collectionManager;
         this.fileManager = fileManager;
         if (fileManager != null) {
             this.fileName = fileManager.getFileName();
         }
+        this.logger = logger;
     }
 
     /**
@@ -46,6 +49,11 @@ public class Save implements Command {
         if (collection.isEmpty()) {
             OutputManager.errPrintln("Коллекция пуста. Сохранять нечего.");
             return;
+        } else {
+            if (logger != null) {
+                logger.clearLog();
+                OutputManager.println("Лог операций очищен.");
+            }
         }
 
         fileManager.save(collection);

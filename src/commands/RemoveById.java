@@ -4,6 +4,7 @@ import models.City;
 import reader_manager.OutputManager;
 import tools.CollectionManager;
 import reader_manager.InputManager;
+import tools.LogOperations;
 
 /**
  * Команда remove_by_id id.
@@ -16,6 +17,7 @@ public class RemoveById implements Command {
 
     private final CollectionManager collectionManager;
     private final InputManager inputManager;
+    private final LogOperations logger;
 
     /**
      * Конструктор команды RemoveById.
@@ -23,9 +25,10 @@ public class RemoveById implements Command {
      * @param collectionManager менеджер коллекции
      * @param inputManager менеджер пользовательского ввода
      */
-    public RemoveById(CollectionManager collectionManager, InputManager inputManager) {
+    public RemoveById(CollectionManager collectionManager, InputManager inputManager, LogOperations logger) {
         this.collectionManager = collectionManager;
         this.inputManager = inputManager;
+        this.logger = logger;
     }
 
     /**
@@ -41,6 +44,7 @@ public class RemoveById implements Command {
         // ищем
         for (City city : collectionManager.getCollection()) {
             if (city.getId() == id) {
+                logger.logRemove(city.getId());
                 collectionManager.getCollection().remove(city);
                 found = true;
                 break;
