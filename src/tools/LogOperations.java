@@ -53,15 +53,16 @@ public class LogOperations {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\\|"); // Разделяем команду и данные
+                String[] parts = line.split("\\|", 2); // разделяем команду и данные
                 String command = parts[0];
 
                 if (command.equals("ADD")) {
                     collectionManager.add(City.parseCity(parts[1]));
                 }
                 else if (command.equals("UPDATE")) {
-                    long id = Long.parseLong(parts[1]);
-                    collectionManager.update(id, City.parseCity(parts[2]));
+                    String[] info = parts[1].split("\\|", 2); // т.к. формат UPDATE|id|City
+                    long id = Long.parseLong(info[0]);
+                    collectionManager.update(id, City.parseCity(info[1]));
                 }
                 else if (command.equals("REMOVE")) {
                     long id = Long.parseLong(parts[1]);
