@@ -92,6 +92,10 @@ public class FileManager {
         try {
             CsvWriter.write(fileName, collection);
             OutputManager.println("Коллекция сохранена.");
+            File tempFileObj = new File(tempFile);
+            if (tempFileObj.exists()) {
+                tempFileObj.delete();
+            }
         } catch (IOException e) {
             OutputManager.errPrintln("Ошибка доступа к файлу: " + e.getMessage());
 
@@ -130,53 +134,52 @@ public class FileManager {
     public void attemptMerge(ArrayDeque<City> collection) {
         File tempFileObj = new File(tempFile);
 
-        // временного файла нет - просто загружаем
-        if (!tempFileObj.exists()) {
-            try {
+        if (tempFileObj.exists()) {
+            try { // временный файл есть - мержим
+                OutputManager.println("Обнаружен временный файл, объединение данных.");
+                ArrayDeque<City> mainData = CsvReader.read(fileName, true);
+                ArrayDeque<City> tempData = CsvReader.read(tempFile, true);
+
+                // OutputManager.println(mainData.toString());
+                // OutputManager.println(tempData.toString());
+
+                // берем все из основного + новые из временного
+                Set<Long> mainIds = new HashSet<>();
+                for (City city : mainData) {
+                    mainIds.add(city.getId());
+                }
+
+                OutputManager.println(mainIds.toString());
+                collection.clear();
+                collection.addAll(mainData);
+
+                for (City city : tempData) {
+                    if (!mainIds.contains(city.getId())) {
+                        collection.add(city);
+                    }
+                }
+
+                tempFileObj.delete();
+                OutputManager.println("Доступ восстановлен! Данные объединены.");
+
+            } catch (IOException e) {
+                // основной недоступен - загружаем из временного
+                try {
+                    OutputManager.errPrintln("Основной файл недоступен, загрузка только из временного.");
+                    ArrayDeque<City> tempData = CsvReader.read(tempFile, true);
+                    collection.clear();
+                    collection.addAll(tempData);
+                } catch (IOException e2) {
+                    OutputManager.errPrintln("Временный и основной файлы недоступны.");
+                }
+            }
+        } else {
+            try { // временного файла нет - просто загружаем
                 ArrayDeque<City> mainData = CsvReader.read(fileName, true);
                 collection.clear();
                 collection.addAll(mainData);
-            } catch (FileNotFoundException e) {
-                // Нет основного файла - ничего не делаем
-            }
-            return;
-        }
-
-        // временный файл есть - мержим
-        try {
-            ArrayDeque<City> mainData = CsvReader.read(fileName, true);
-            ArrayDeque<City> tempData = CsvReader.read(tempFile, true);
-
-            OutputManager.println(mainData.toString());
-            OutputManager.println(tempData.toString());
-
-            // берем все из основного + новые из временного
-            Set<Long> mainIds = new HashSet<>();
-            for (City city : mainData) {
-                mainIds.add(city.getId());
-            }
-
-            OutputManager.println(mainIds.toString());
-            collection.clear();
-            collection.addAll(mainData);
-
-            for (City city : tempData) {
-                if (!mainIds.contains(city.getId())) {
-                    collection.add(city);
-                }
-            }
-
-            tempFileObj.delete();
-            OutputManager.println("Доступ восстановлен! Данные объединены.");
-
-        } catch (FileNotFoundException e) {
-            // основной недоступен - загружаем из временного
-            try {
-                ArrayDeque<City> tempData = CsvReader.read(tempFile, true);
-                collection.clear();
-                collection.addAll(tempData);
-            } catch (FileNotFoundException e2) {
-                OutputManager.errPrintln("Временный и основной файлы недоступны.");
+            } catch (IOException e) {
+                return;
             }
         }
     }
