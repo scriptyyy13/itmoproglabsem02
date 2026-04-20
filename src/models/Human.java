@@ -48,13 +48,12 @@ public class Human {
     /** @return дату рождения человека */
     public ZonedDateTime getBirthday() { return birthday; }
 
-    /**
-     * Строковое представление объекта Human.
-     *
-     * @return строка в формате "name,height,birthday"
-     */
     @Override
     public String toString() {
-        return name + "," + height + "," + birthday;
+        return "Human{" +
+                "name='" + name + '\'' +
+                ", height=" + height +
+                ", birthday=" + birthday +
+                '}';
     }
 }
